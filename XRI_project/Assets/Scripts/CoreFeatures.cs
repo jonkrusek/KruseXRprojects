@@ -18,15 +18,15 @@ public class CoreFeatures : MonoBehaviour
      */
 
     public bool AudioSFXSourceCreated { get; set; }
+    [field: Header ("Core Audio")]
+    [field: SerializeField]
+    public AudioClip AudioClipOnStart { get; set; }
 
     [field: SerializeField]
-    public AudioClip AudioCLipOnStart { get; set; }
-
-    [field: SerializeField]
-    public AudioClip AudioCLipOnEnd { get; set; }
+    public AudioClip AudioClipOnEnd { get; set; }
 
     private AudioSource audioSource;
-
+    [field: Header ("Core Feature")]
     public FeatureUsage featureUsage = FeatureUsage.Once;
 
     protected virtual void Awake()
@@ -49,5 +49,23 @@ public class CoreFeatures : MonoBehaviour
         //On awake create this audiosource 
 
         AudioSFXSourceCreated = true;
+    }
+
+    protected void PlayOnStart()
+    {
+        if(AudioSFXSourceCreated && AudioClipOnStart != null)
+        {
+            audioSource.clip = AudioClipOnStart;
+            audioSource.Play();
+        }
+    }
+
+    protected void PlayOnEnd()
+    {
+        if(AudioSFXSourceCreated && AudioClipOnEnd != null)
+        {
+            audioSource.clip = AudioClipOnEnd;
+            audioSource.Play();
+        }
     }
 }
